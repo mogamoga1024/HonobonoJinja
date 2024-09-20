@@ -10,6 +10,9 @@ let timer1 = 0;
 let timer2 = 0;
 
 function playMelody1() {
+    stopMelody();
+    initSynths();
+
     let time = Tone.now();
     const startTime = time;
 
@@ -26,8 +29,8 @@ function playMelody1() {
 }
 
 function playMelody2() {
-    synth1.triggerRelease();
-    synth2.triggerRelease();
+    stopMelody();
+    initSynths();
     
     let time = Tone.now();
     const startTime = time;
@@ -157,12 +160,14 @@ function stopMelody() {
     synth2 = null;
 }
 
-document.getElementById("play").addEventListener("click", async () => {
-    stopMelody();
-    await Tone.start();
+function initSynths() {
     const options = {volume: -3};
     synth1 = new Tone.Synth(options).toDestination();
     synth2 = new Tone.Synth(options).toDestination();
+}
+
+document.getElementById("play").addEventListener("click", async () => {
+    await Tone.start();
     playMelody1();
 });
 
